@@ -1,0 +1,16 @@
+extends ../../layouts/default
+
+block head
+  title Products
+
+block neck
+  link(rel='stylesheet', href='/views/index.min.css?#{cacheBreaker}')
+
+block body
+  div.jumbotron
+    h1 Products
+  div.row
+    ul
+      each product in JSON.parse(json)
+        div
+          li #{product.name} #{product.sku}
