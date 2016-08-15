@@ -35,8 +35,8 @@
     ecs_cluster:
       aws_access_key: "{{lookup('env','ACCESS_ID')}}"
       aws_secret_key: "{{lookup('env','ACCESS_KEY')}}"
-      name : "user-cluster"
-      state : present
+      name: "user-cluster"
+      state: present
   - name: Create task definition
     ecs_taskdefinition:
       aws_access_key: "{{lookup('env','ACCESS_ID')}}"

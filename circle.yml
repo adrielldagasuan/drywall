@@ -37,7 +37,8 @@ deployment:
       # - ./deploy/deploy-aws.sh
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push adrielldagasuan/user-management:$CIRCLE_SHA1
-      - ansible-playbook deploy/ec2-cloudformation.yml
+      #- ansible-playbook deploy/ec2-cloudformation.yml
+      - ansible-playbook deploy/ecs-deploy.yml
 
 
 notify:

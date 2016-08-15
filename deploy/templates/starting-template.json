@@ -67,6 +67,11 @@
       "Description" : "ECS Cluster Name"
     },
 
+    "DockerImageName" : {
+      "Type" : "String",
+      "Description" : "Name of Docker image"
+    },
+
     "EcsPort" : {
       "Type" : "String",
       "Description" : "Optional - Security Group port to open on ECS instances - defaults to port 80",
@@ -137,6 +142,29 @@
   },
 
   "Resources" : {
+
+    "ECSCluster": {
+      "Type": "AWS::ECS::Cluster"
+    },
+
+    "taskdefinition": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties" : {
+        "ContainerDefinitions" : [
+          {
+            "Name": "user-container",
+            "Cpu": "10",
+            "Essential": "true",
+            "Image":{ "Ref" : "DockerImageName"},
+            "Memory":"300",
+            "PortMappings": [
+              { "HostPort": 80, "ContainerPort": 3000 }
+            ],
+          }
+        ],
+        "family" : "user-service-family"
+      }
+    },
 
     "Vpc" : {
       "Condition" : "CreateVpcResources",
@@ -380,6 +408,17 @@
         "MaxSize" : { "Ref" : "AsgMaxSize" },
         "DesiredCapacity" : { "Ref" : "AsgMaxSize" },
         "Tags" : [ { "Key" : "Name", "Value" : { "Fn::Join" : ["", [ "ECS Instance - ", { "Ref" : "AWS::StackName" } ] ] }, "PropagateAtLaunch" : "true" } ]
+      }
+    },
+
+    "service": {
+      "Type": "AWS::ECS::Service",
+      "DependsOn": ["EcsInstanceAsg"],
+      "Properties" : {
+        "Cluster": {"Ref": "ECSCluster"},
+        "DesiredCount": "1",
+        "Role" : {"Ref":"ECSServiceRole"},
+        "TaskDefinition" : {"Ref":"taskdefinition"}
       }
     }
 
