@@ -1,0 +1,42 @@
+#circle.yml for AWS deployment
+machine:
+  python:
+    version: 2.7.10
+  services:
+    - docker
+
+dependencies:
+  pre:
+    # install Ansible for deployment
+     - pip install ansible
+    # install boto/boto3 needed by AWS Ansible modules
+     - pip install boto
+     - pip install boto3
+     - cd /etc
+     - sudo mkdir ansible
+     - cd ansible
+     - sudo mkdir hosts
+    # - cp ~/restify-test/deploy/hosts/ec2.ini /etc/ansible/
+  override:
+    # set NPM registry
+    - npm set registry https://registry.npmjs.org/
+    # build image
+    - docker build --no-cache -t adrielldagasuan/user-management:$CIRCLE_SHA1 .
+    - npm install
+
+test:
+  override:
+    # run test scripts for unit/integration/functional
+    # - cd app && npm test
+    - echo "test"
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - ./deploy/deploy-aws.sh
+
+
+notify:
+  webhooks:
+    - url: http://54.197.16.151:9200/circleci/new_events

@@ -1,0 +1,37 @@
+- name:  Provision EC2 Server
+  hosts: localhost
+  remote_user: ansible
+  gather_facts: false
+  tasks:
+  - name: Provision stack
+    ec2:
+      aws_access_key: "{{lookup('env','ACCESS_ID')}}"
+      aws_secret_key: "{{lookup('env','ACCESS_KEY')}}"
+      region: ap-northeast-1
+      image: ami-2b08f44a
+      instance_type: t2.micro
+      key_name: ansible-key-pair
+      exact_count: 1
+      state: present
+      wait: no
+      instance_tags:
+        Name: staging
+    register: ec2info
+  - name: Print the results
+    debug: var=ec2info
+  - name: "Create task definition"
+    ecs_taskdefinition:
+      containers:
+      - name: restify-test
+        cpu: 10
+        essential: true
+        image: "adrielldagasuan/restify-test"
+        memory: 300
+        portMappings:
+        - containerPort: 3000
+          hostPort: 80
+      family: restify-test-taskdef
+      state: present
+    register: task_output
+  - name: Print the results
+    debug: var=task_output

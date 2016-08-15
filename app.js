@@ -67,6 +67,10 @@ app.use(function(req, res, next) {
   next();
 });
 
+//added api
+var productRoutes = require('./productRoutes/getProducts');
+app.use('/getProducts', productRoutes);
+
 //global locals
 app.locals.projectName = app.config.projectName;
 app.locals.copyrightYear = new Date().getFullYear();

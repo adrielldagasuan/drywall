@@ -1,8 +1,9 @@
-'use strict';
+var express = require('express');
+var http = require('http');
+var router = express.Router();
 
-exports.init = function(req, result){
-  var http = require('http');
-  
+/* GET users listing. */
+router.get('/', function(req, result, next) {
   var options = {
     host: '52.198.44.5',
     port: 80,
@@ -16,7 +17,7 @@ exports.init = function(req, result){
     res.setEncoding('utf8');
     res.on('data', function (chunk) {
       console.log('BODY: ' + chunk);
-      result.render('about/index', {data : JSON.parse(chunk)});
+      result.send(chunk);
     });
   });
   
@@ -25,5 +26,7 @@ exports.init = function(req, result){
   });
   request.end();
   
-  //res.render('about/index');
-};
+  //result.send('respond with a resource');
+});
+
+module.exports = router;

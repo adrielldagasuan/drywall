@@ -1,0 +1,49 @@
+extends ../../layouts/default
+
+block head
+  title Product List
+
+block neck
+  link(rel='stylesheet', href='/views/about/index.min.css?#{cacheBreaker}')
+
+block body
+  div.row
+    div.col-sm-6
+      div.page-header
+        h1 Product List
+      div.media
+        each val in data
+          p #{val.name} : #{val.sku} : #{val.price}
+    
+  //
+    div.col-sm-6.special
+      div.page-header
+        h1 Add Product
+      form(method = 'POST', name = 'add product')
+ 
+        p Name
+          input(type = "text", name = "name")
+        p SKU
+          input(type = "text", name = "sku")
+        p Price
+          input(type = "number", name = "price")
+        p
+          input(type = "submit", value = "Add Product")
+      
+      //
+        table
+          thead
+            tr
+              th Name
+              th SKU
+              th Price
+          tbody
+            tr
+              td
+                input(type='text', name='nameInput', value='TestName')
+              td
+                input(type='text', name='skuInput', value='TestSKU')
+              td
+                input(type='text', name='priceInput', value='TestPrice')
+              td
+                button Add Product

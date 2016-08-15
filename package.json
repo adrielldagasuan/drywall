@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "async": "1.x.x",
-    "bcrypt": "0.8.x",
+    "bcryptjs": "2.x.x",
     "body-parser": "1.x.x",
     "compression": "1.x.x",
     "connect-mongo": "1.x.x",
@@ -34,9 +34,9 @@
     "passport-oauth": "1.x.x",
     "passport-tumblr": "0.1.x",
     "passport-twitter": "1.x.x",
-    "request": "^2.74.0",
     "serve-static": "1.10.x",
-    "underscore": "1.x.x"
+    "underscore": "1.x.x",
+    "request": "2.x.x"
   },
   "devDependencies": {
     "backbone": "1.x.x",

@@ -32,9 +32,13 @@ exports = module.exports = function(app, passport) {
   //front end
   app.get('/', require('./views/index').init);
   app.get('/about/', require('./views/about/index').init);
+  app.get('/products/', require('./views/products/index').init);
   app.get('/contact/', require('./views/contact/index').init);
   app.post('/contact/', require('./views/contact/index').sendMessage);
-
+  
+  //products
+  app.post('/products/', require('./views/products/index').addProduct)
+  
   //sign up
   app.get('/signup/', require('./views/signup/index').init);
   app.post('/signup/', require('./views/signup/index').signup);
@@ -170,10 +174,6 @@ exports = module.exports = function(app, passport) {
   app.get('/account/settings/tumblr/', passport.authenticate('tumblr', { callbackURL: '/account/settings/tumblr/callback/' }));
   app.get('/account/settings/tumblr/callback/', require('./views/account/settings/index').connectTumblr);
   app.get('/account/settings/tumblr/disconnect/', require('./views/account/settings/index').disconnectTumblr);
-
-  //products
-  //app.all('/products*', ensureAuthenticated);
-  app.get('/products/', require('./controller/products/products').init);
 
   //route not found
   app.all('*', require('./views/http/index').http404);

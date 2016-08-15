@@ -1,0 +1,65 @@
+- name:  Provision AWS Stack
+  hosts: localhost
+  remote_user: ansible
+  gather_facts: false
+  tasks:
+  - name: launch ansible cloudformation
+    cloudformation:
+      aws_access_key: "{{lookup('env','ACCESS_ID')}}"
+      aws_secret_key: "{{lookup('env','ACCESS_KEY')}}"
+      stack_name: "user-stack"
+      state: "present"
+      region: "ap-northeast-1"
+      disable_rollback: true
+      template: "deploy/templates/starting-template.json"
+      template_parameters:
+        AsgMaxSize: 1
+        IamRoleInstanceProfile : "ecsInstanceRole"
+        CreateElasticLoadBalancer: false
+        EcsAmiId : "ami-2b08f44a"
+        EcsClusterName : "user-cluster"
+        EcsEndpoint : ""
+        EcsPort : 80
+        EcsInstanceType : "t2.micro"
+        ElbHealthCheckTarget : "HTTP:80/"
+        ElbPort : 80
+        ElbProtocol : "HTTP"
+        KeyName : "deployment-key-pair"
+        SourceCidr : "0.0.0.0/0"
+        SubnetIds : ""
+        VpcAvailabilityZones : ap-northeast-1a, ap-northeast-1c
+        VpcId : ""
+      tags:
+        Stack: "user-stack"
+  - name: Create cluster
+    ecs_cluster:
+      aws_access_key: "{{lookup('env','ACCESS_ID')}}"
+      aws_secret_key: "{{lookup('env','ACCESS_KEY')}}"
+      name : "user-cluster"
+      state : present
+  - name: Create task definition
+    ecs_taskdefinition:
+      aws_access_key: "{{lookup('env','ACCESS_ID')}}"
+      aws_secret_key: "{{lookup('env','ACCESS_KEY')}}"
+      revision: "{{active_revision}}"
+      containers:
+      - name: restify-test
+        cpu: 10
+        essential: true
+        image: "adrielldagasuan/user-management:{{lookup('env','CIRCLE_SHA1')}}"
+        memory: 300
+        portMappings:
+        - containerPort: 3000
+          hostPort: 80
+      family: user-service-family
+      state: present
+    register: task_output
+  - name: Register service
+    ecs_service:
+      aws_access_key: "{{lookup('env','ACCESS_ID')}}"
+      aws_secret_key: "{{lookup('env','ACCESS_KEY')}}"
+      state: present
+      name: user-service
+      desired_count: 1
+      cluster: user-cluster
+      task_definition: "user-service-family"

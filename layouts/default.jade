@@ -11,7 +11,7 @@ html
       div.container
         div.navbar-header
           a.navbar-brand(href='/')
-            // img.navbar-logo(src='/media/logo-symbol-64x64.png', alt='Logo')
+            img.navbar-logo(src='/media/logo-symbol-64x64.png', alt='Logo')
             span.navbar-brand-label #{projectName}
           button.navbar-toggle.collapsed(data-toggle='collapse', data-target='.my-navbar-collapse')
             span.icon-bar
@@ -21,9 +21,9 @@ html
           ul.nav.navbar-nav
             li: a(href='/') Home
             li: a(href='/about/') About
-            li: a(href='/products') Products
             li: a(href='/signup/') Sign Up
             li: a(href='/contact/') Contact
+            li: a(href='/products/') Product List
           ul.nav.navbar-nav.navbar-right
             if user && user.username
               li: a(href='#{user.defaultReturnUrl}')

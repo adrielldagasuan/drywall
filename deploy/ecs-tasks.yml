@@ -1,0 +1,37 @@
+- name:  Provision EC2 Server
+  hosts: localhost
+  remote_user: ansible
+  gather_facts: false
+  vars:
+    containers:
+    - name: restify-test
+      cpu: 10
+      essential: true
+      image: "adrielldagasuan/products-service"
+      memory: 300
+      portMappings:
+      - containerPort: 3000
+        hostPort: 80
+  tasks:
+  - name: "Check latest revision"
+    ecs_taskdefinition:
+      family: restify-test-taskdef
+      state: present
+    register: task_output
+  - name: "Set fact"
+    set_fact: active_revision={{task_output.taskdefinition.revision}}
+    when: task_output.taskdefinition.revision is defined
+  - name: "Deregister latest revision"
+    ecs_taskdefinition:
+      family: restify-test-taskdef
+      state: absent
+      revision: "{{active_revision}}"
+  - name: "Create task definition"
+    ecs_taskdefinition:
+      containers: "{{ containers }}"
+      family: restify-test-taskdef
+      state: present
+      revision: "{{active_revision}}"
+
+  - name: Print the results
+    debug: var=task_output
