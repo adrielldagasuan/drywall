@@ -67,11 +67,6 @@
       "Description" : "ECS Cluster Name"
     },
 
-    "DockerImageName" : {
-      "Type" : "String",
-      "Description" : "Name of Docker image"
-    },
-
     "EcsPort" : {
       "Type" : "String",
       "Description" : "Optional - Security Group port to open on ECS instances - defaults to port 80",
