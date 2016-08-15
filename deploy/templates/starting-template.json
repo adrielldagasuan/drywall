@@ -417,7 +417,6 @@
       "Properties" : {
         "Cluster": {"Ref": "ECSCluster"},
         "DesiredCount": "1",
-        "Role" : {"Ref":"ECSServiceRole"},
         "TaskDefinition" : {"Ref":"taskdefinition"}
       }
     }
