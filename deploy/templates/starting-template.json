@@ -143,28 +143,6 @@
 
   "Resources" : {
 
-    "ECSCluster": {
-      "Type": "AWS::ECS::Cluster"
-    },
-
-    "taskdefinition": {
-      "Type": "AWS::ECS::TaskDefinition",
-      "Properties" : {
-        "ContainerDefinitions" : [
-          {
-            "Name": "user-container",
-            "Cpu": "10",
-            "Essential": "true",
-            "Image":{ "Ref" : "DockerImageName"},
-            "Memory":"300",
-            "PortMappings": [
-              { "HostPort": 80, "ContainerPort": 3000 }
-            ]
-          }
-        ]
-      }
-    },
-
     "Vpc" : {
       "Condition" : "CreateVpcResources",
       "Type" : "AWS::EC2::VPC",
@@ -407,16 +385,6 @@
         "MaxSize" : { "Ref" : "AsgMaxSize" },
         "DesiredCapacity" : { "Ref" : "AsgMaxSize" },
         "Tags" : [ { "Key" : "Name", "Value" : { "Fn::Join" : ["", [ "ECS Instance - ", { "Ref" : "AWS::StackName" } ] ] }, "PropagateAtLaunch" : "true" } ]
-      }
-    },
-
-    "service": {
-      "Type": "AWS::ECS::Service",
-      "DependsOn": ["EcsInstanceAsg"],
-      "Properties" : {
-        "Cluster": {"Ref": "ECSCluster"},
-        "DesiredCount": "1",
-        "TaskDefinition" : {"Ref":"taskdefinition"}
       }
     }
 
