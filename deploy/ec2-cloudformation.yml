@@ -42,7 +42,7 @@
       aws_access_key: "{{lookup('env','ACCESS_ID')}}"
       aws_secret_key: "{{lookup('env','ACCESS_KEY')}}"
       containers:
-      - name: restify-test
+      - name: user-container
         cpu: 10
         essential: true
         image: "adrielldagasuan/user-management:{{lookup('env','CIRCLE_SHA1')}}"
