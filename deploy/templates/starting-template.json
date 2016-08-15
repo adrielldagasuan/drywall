@@ -159,7 +159,7 @@
             "Memory":"300",
             "PortMappings": [
               { "HostPort": 80, "ContainerPort": 3000 }
-            ],
+            ]
           }
         ],
         "family" : "user-service-family"
