@@ -13,9 +13,9 @@
       disable_rollback: true
       template: "deploy/templates/starting-template.json"
       template_parameters:
-        AsgMaxSize: 1
+        AsgMaxSize: 2
         IamRoleInstanceProfile: "ecsInstanceRole"
-        CreateElasticLoadBalancer: false
+        CreateElasticLoadBalancer: true
         EcsAmiId: "ami-2b08f44a"
         EcsClusterName: "user-cluster"
         EcsEndpoint: ""
