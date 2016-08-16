@@ -30,6 +30,7 @@ deployment:
     branch: master
     commands:
       - ./deploy/deploy-aws.sh
+      - ./deploy/deploy-aws-services.sh
       #- docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       #- docker push adrielldagasuan/user-management:$CIRCLE_SHA1
       #- ./deploy/deploy-aws-cli.sh

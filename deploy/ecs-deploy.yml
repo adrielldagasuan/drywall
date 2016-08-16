@@ -32,3 +32,9 @@
         VpcId: ""
       tags:
         Stack: "user-stack"
+  - name: Create cluster
+    ecs_cluster:
+      aws_access_key: "{{lookup('env','ACCESS_ID')}}"
+      aws_secret_key: "{{lookup('env','ACCESS_KEY')}}"
+      name: "user-cluster"
+      state: present
