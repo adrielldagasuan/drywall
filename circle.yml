@@ -16,29 +16,24 @@ dependencies:
      - sudo mkdir ansible
      - cd ansible
      - sudo mkdir hosts
-    # - cp ~/restify-test/deploy/hosts/ec2.ini /etc/ansible/
   override:
-    # set NPM registry
     - npm set registry https://registry.npmjs.org/
-    # build image
     - docker build --no-cache -t adrielldagasuan/user-management:$CIRCLE_SHA1 .
     - npm install
 
 test:
   override:
-    # run test scripts for unit/integration/functional
-    # - cd app && npm test
     - echo "test"
 
 deployment:
   production:
     branch: master
     commands:
-      # - ./deploy/deploy-aws.sh
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push adrielldagasuan/user-management:$CIRCLE_SHA1
+      - ./deploy/deploy-aws.sh
+      #- docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      #- docker push adrielldagasuan/user-management:$CIRCLE_SHA1
+      #- ./deploy/deploy-aws-cli.sh
       #- ansible-playbook deploy/ec2-cloudformation.yml
-      - ansible-playbook deploy/ec2-cloudformation.yml
 
 
 notify:

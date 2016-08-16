@@ -14,21 +14,21 @@
       template: "deploy/templates/starting-template.json"
       template_parameters:
         AsgMaxSize: 1
-        IamRoleInstanceProfile : "ecsInstanceRole"
+        IamRoleInstanceProfile: "ecsInstanceRole"
         CreateElasticLoadBalancer: false
-        EcsAmiId : "ami-2b08f44a"
-        EcsClusterName : "user-cluster"
-        EcsEndpoint : ""
-        EcsPort : 80
-        EcsInstanceType : "t2.micro"
-        ElbHealthCheckTarget : "HTTP:80/"
-        ElbPort : 80
-        ElbProtocol : "HTTP"
-        KeyName : "deployment-key-pair"
-        SourceCidr : "0.0.0.0/0"
-        SubnetIds : ""
-        VpcAvailabilityZones : ap-northeast-1a, ap-northeast-1c
-        VpcId : ""
+        EcsAmiId: "ami-2b08f44a"
+        EcsClusterName: "user-cluster"
+        EcsEndpoint: ""
+        EcsPort: 80
+        EcsInstanceType: "t2.micro"
+        ElbHealthCheckTarget: "HTTP:80/"
+        ElbPort: 80
+        ElbProtocol: "HTTP"
+        KeyName: "deployment-key-pair"
+        SourceCidr: "0.0.0.0/0"
+        SubnetIds: ""
+        VpcAvailabilityZones: ap-northeast-1a, ap-northeast-1c
+        VpcId: ""
       tags:
         Stack: "user-stack"
   - name: Create cluster
