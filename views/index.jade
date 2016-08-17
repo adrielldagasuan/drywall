@@ -1,7 +1,7 @@
 extends ../layouts/default
 
 block head
-  title Drywall is Running
+  title Welcome
 
 block neck
   link(rel='stylesheet', href='/views/index.min.css?#{cacheBreaker}')
@@ -10,7 +10,7 @@ block body
   div.jumbotron
     h1 Welcome
     p.lead
-      | This is your application
+      | This is an example of a user service
     div
       a.btn.btn-primary.btn-lg(href='/signup/') Create an Account
       | &nbsp;or&nbsp;
